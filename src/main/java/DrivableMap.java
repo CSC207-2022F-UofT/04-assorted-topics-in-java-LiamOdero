@@ -10,6 +10,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 class DrivableMap {
     HashMap<String, Drivable> drivable_map;
@@ -27,6 +28,14 @@ class DrivableMap {
      *       in drivable_map, then add the pair to drivable_map.
      *       Return true if the Drivable was added to drivable_map.
      */
+    public boolean addDrivable(String id, Drivable drivableObject)    {
+        if (this.drivable_map.containsKey(id))  {
+            return false;
+        }   else {
+            this.drivable_map.put(id, drivableObject);
+            return true;
+        }
+    }
 
 
 
@@ -37,6 +46,17 @@ class DrivableMap {
      * You may want to use drivable_map.keys() or drivable_map.values() to
      * iterate through drivable_map.
      */
+    public boolean hasFasterThan(int speed)    {
+        Set<String> keySet = this.drivable_map.keySet();
+        List<String> keys = new ArrayList<String>(keySet);
+        for (int i = 0; i < this.drivable_map.size(); i++)  {
+            String currentKey = keys.get(i);
+            if (this.drivable_map.get(currentKey).getMaxSpeed() >= speed)   {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
@@ -46,7 +66,20 @@ class DrivableMap {
      *       returns a List containing all of the Tradable items in
      *       drivable_map.
      */
+    public List<Tradable> getTradable() {
+        ArrayList<Tradable> tradables = new ArrayList<>();
+        Set<String> keySet = this.drivable_map.keySet();
+        List<String> keys = new ArrayList<String>(keySet);
 
+        for (int i = 0; i < this.drivable_map.size(); i++)  {
+            String currentKey = keys.get(i);
+            Drivable currentDrivable = this.drivable_map.get(currentKey);
+            if (currentDrivable instanceof Tradable)  {
+                tradables.add((Tradable) currentDrivable);
+            }
+        }
+        return tradables;
+    }
 
 
     
